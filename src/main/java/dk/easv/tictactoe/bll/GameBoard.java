@@ -7,21 +7,25 @@ package dk.easv.tictactoe.bll;
  */
 public class GameBoard implements IGameBoard
 {
+    private static final int GRID_SIZE = 3;
+
+    private int player = 0;
+    private Integer[][] grid = new Integer[GRID_SIZE][GRID_SIZE];
+    private Integer winner;
 
     /**
      * Returns 0 for player 0, 1 for player 1.
      *
-     * @return int Id of the next player.
+     * @return int ID of the next player.
      */
     public int getNextPlayer()
     {
-        //TODO Implement this method
-        return 0;
+        return player;
     }
 
     /**
      * Attempts to let the current player play at the given coordinates. It the
-     * attempt is succesfull the current player has ended his turn and it is the
+     * attempt is successful the current player has ended his turn, and it is the
      * next players turn.
      *
      * @param col column to place a marker in.
@@ -31,7 +35,13 @@ public class GameBoard implements IGameBoard
      */
     public boolean play(int col, int row)
     {
-        //TODO Implement this method
+        if (isGameOver()) return false;
+
+        Integer cell = grid[row][col];
+        if (cell != null) return false;
+
+        populateCell(row, col);
+        switchPlayer();
         return true;
     }
 
@@ -39,23 +49,28 @@ public class GameBoard implements IGameBoard
      * Tells us if the game has ended either by draw or by meeting the winning
      * condition.
      *
-     * @return true if the game is over, else it will retun false.
+     * @return true if the game is over, else it will return false.
      */
     public boolean isGameOver()
     {
-        //TODO Implement this method
-        return false;
+        if (checkRows()) return true;
+        if (checkColums()) return true;
+        if (checkDescendingDiagonal()) return true;
+        if (checkAscendingDiagonal()) return true;
+        if (hasEmptySpaces()) return false;
+
+        winner = -1;
+        return true;
     }
 
     /**
-     * Gets the id of the winner, -1 if its a draw.
+     * Gets the id of the winner, -1 if it's a draw.
      *
-     * @return int id of winner, or -1 if draw.
+     * @return int id of winner, or -1 if you draw.
      */
     public int getWinner()
     {
-        //TODO Implement this method
-        return -1;
+        return winner;
     }
 
     /**
@@ -63,6 +78,136 @@ public class GameBoard implements IGameBoard
      */
     public void newGame()
     {
-        //TODO Implement this method
+        grid = new Integer[GRID_SIZE][GRID_SIZE];
+        player = 0;
+        winner = null;
+    }
+
+    /**
+     * Switches players.
+     */
+    private void switchPlayer()
+    {
+        if (player == 0) player = 1;
+        else player = 0;
+    }
+
+    /**
+     * Populate the specified cell with current player's signature.
+     *
+     * @param row row to place a marker in.
+     * @param col column to place a marker in.
+     */
+    private void populateCell(int row, int col)
+    {
+        grid[row][col] = player;
+    }
+
+    /**
+     * Checking all the rows for a complete set, and saving the winner if it finds a complete set.
+     * @return true if any of the rows have a complete set, otherwise false.
+     */
+    private boolean checkRows() {
+        for (int row = 0; row < GRID_SIZE; row++) {
+            if (checkRow(row)) {
+                winner = grid[row][0];
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checking a specific row for a complete set.
+     * @param row specified row to check.
+     * @return true if the row has a complete set, otherwise false.
+     */
+    private boolean checkRow(int row) {
+        Integer firstCell = grid[row][0];
+        if (firstCell == null) return false;
+
+        for (int col = 1; col < GRID_SIZE; col++) {
+            if (!firstCell.equals(grid[row][col])) return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checking a specific column for a complete set.
+     * @param col specified column to check.
+     * @return true if the column has a complete set, otherwise false.
+     */
+    private boolean checkColumn(int col) {
+        Integer firstCell = grid[0][col];
+        if (firstCell == null) return false;
+
+        for (int row = 1; row < GRID_SIZE; row++) {
+            if (!firstCell.equals(grid[row][col])) return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checking all the columns for a complete set, and saving the winner if it finds a complete set.
+     * @return true if any of the columns have a complete set, otherwise false.
+     */
+    private boolean checkColums() {
+        for (int col = 0; col < GRID_SIZE; col++) {
+            if (checkColumn(col)) {
+                winner = grid[0][col];
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checking the descending diagonal for a complete set and saving the winner if found.
+     * @return true if complete set has been found, otherwise false.
+     */
+    private boolean checkDescendingDiagonal() {
+        Integer firstCell = grid[0][0];
+        if (firstCell == null) return false;
+
+        for (int cell = 1; cell < GRID_SIZE; cell++) {
+            if (!firstCell.equals(grid[cell][cell])) return false;
+        }
+
+        winner = firstCell;
+        return true;
+    }
+
+    /**
+     * Checking the ascending diagonal for a complete set and saving the winner if found.
+     * @return true if complete set has been found, otherwise false.
+     */
+    private boolean checkAscendingDiagonal() {
+        Integer firstCell = grid[GRID_SIZE - 1][0];
+        if (firstCell == null) return false;
+
+        for (int cell = 1; cell < GRID_SIZE; cell++) {
+            if (!firstCell.equals(grid[GRID_SIZE - 1 - cell][cell])) return false;
+        }
+
+        winner = firstCell;
+        return true;
+    }
+
+    /**
+     * Checks all the cells for empty cells.
+     * @return true if found empty cell, otherwise false.
+     */
+    private boolean hasEmptySpaces() {
+        for (int row = 0; row < GRID_SIZE; row++) {
+            for (int col = 0; col < GRID_SIZE; col++) {
+                if (grid[row][col] == null) return true;
+            }
+        }
+
+        return false;
     }
 }

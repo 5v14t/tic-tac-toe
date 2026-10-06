@@ -160,17 +160,19 @@ public class TicTacViewController implements Initializable
                 // Get the column index for a child (button) of the GridPane
                 Integer column = GridPane.getColumnIndex(child);
 
-                // Index can be null when it was not specifically mentioned
-                // These items take the 0,0 cell.
-                // So the child that has index as null, will be placed automatically in the 0,0 cell
-                // But how would our code know it that it is 0,0, if it returns null?
-                // This is why, when we get index, we have to check if it is null
-                // Cuz if it is, we have to manually store 0 in the corresponded indexes
-                // As it is done lower
+                /*
+                 Index can be null when it was not specifically mentioned
+                 These items take the 0,0 cell.
+                 So the child that has index as null, will be placed automatically in the 0,0 cell
+                 But how would our code know that it is 0,0, if it returns null?
+                 This is why, when we get index, we have to check if it is null
+                 Cuz if it is, we have to manually store 0 in the corresponded indexes
+                 As it is done lower
+                */
                 if (row == null) row = 0;
                 if (column == null) column = 0;
 
-                // If the winning cell coordinates match the cell coordinates of the child (button)
+                // If the winning cell coordinates match the child (button) coordinates
                 if (cell[0] == row && cell[1] == column) {
 
                     // Change the color of that button

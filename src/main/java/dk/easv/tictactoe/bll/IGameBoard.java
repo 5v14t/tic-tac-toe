@@ -1,6 +1,8 @@
 
 package dk.easv.tictactoe.bll;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author EASV
@@ -46,4 +48,6 @@ public interface IGameBoard
      * Resets the game to a new game state.
      */
     void newGame();
+
+    ArrayList<int[]> getWinningLine();
 }

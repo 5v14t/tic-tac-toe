@@ -1,6 +1,8 @@
 
 package dk.easv.tictactoe.bll;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author EASV
@@ -12,6 +14,7 @@ public class GameBoard implements IGameBoard
     private int player = 0;
     private Integer[][] grid = new Integer[GRID_SIZE][GRID_SIZE];
     private Integer winner;
+    private final ArrayList<int[]> winningLine = new ArrayList<>();
 
     /**
      * Returns 0 for player 0, 1 for player 1.
@@ -111,6 +114,7 @@ public class GameBoard implements IGameBoard
         for (int row = 0; row < GRID_SIZE; row++) {
             if (checkRow(row)) {
                 winner = grid[row][0];
+                saveWinningRow(row);
                 return true;
             }
         }
@@ -158,6 +162,7 @@ public class GameBoard implements IGameBoard
         for (int col = 0; col < GRID_SIZE; col++) {
             if (checkColumn(col)) {
                 winner = grid[0][col];
+                saveWinningColumn(col);
                 return true;
             }
         }
@@ -178,6 +183,7 @@ public class GameBoard implements IGameBoard
         }
 
         winner = firstCell;
+        saveWinningDescendingDiagonal();
         return true;
     }
 
@@ -194,6 +200,7 @@ public class GameBoard implements IGameBoard
         }
 
         winner = firstCell;
+        saveWinningAscendingDiagonal();
         return true;
     }
 
@@ -209,5 +216,33 @@ public class GameBoard implements IGameBoard
         }
 
         return false;
+    }
+
+    private void saveWinningRow(int row) {
+        for (int col = 0; col < GRID_SIZE; col++) {
+            winningLine.add(new int[]{row, col});
+        }
+    }
+
+    private void saveWinningColumn(int col) {
+        for (int row = 0; row < GRID_SIZE; row++) {
+            winningLine.add(new int[]{row, col});
+        }
+    }
+
+    private void saveWinningDescendingDiagonal() {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            winningLine.add(new int[]{i, i});
+        }
+    }
+
+    private void saveWinningAscendingDiagonal() {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            winningLine.add(new int[]{GRID_SIZE - 1 - i, i});
+        }
+    }
+
+    public ArrayList<int[]> getWinningLine() {
+        return winningLine;
     }
 }

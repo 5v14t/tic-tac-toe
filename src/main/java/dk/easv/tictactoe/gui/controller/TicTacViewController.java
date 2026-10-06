@@ -3,7 +3,10 @@ package dk.easv.tictactoe.gui.controller;
 
 // Java imports
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,6 +62,7 @@ public class TicTacViewController implements Initializable
                 {
                     int winner = game.getWinner();
                     displayWinner(winner);
+                    highlightWinningLine(game.getWinningLine());
                 } else {
                     setPlayer();
                 }
@@ -137,6 +141,43 @@ public class TicTacViewController implements Initializable
         {
             Button btn = (Button) n;
             btn.setText("");
+        }
+    }
+
+    private void highlightWinningLine(ArrayList<int[]> winningLine) {
+        // Get all the children of the GridPane
+        ObservableList<Node> children = gridPane.getChildrenUnmodifiable();
+
+        // For every cell in the winging line
+        for (int[] cell : winningLine) {
+
+            // For every child of the GridPane
+            for (Node child : children) {
+
+                // Get the row index for a child (button) of the GridPane
+                Integer row = GridPane.getRowIndex(child);
+
+                // Get the column index for a child (button) of the GridPane
+                Integer column = GridPane.getColumnIndex(child);
+
+                // Index can be null when it was not specifically mentioned
+                // These items take the 0,0 cell.
+                // So the child that has index as null, will be placed automatically in the 0,0 cell
+                // But how would our code know it that it is 0,0, if it returns null?
+                // This is why, when we get index, we have to check if it is null
+                // Cuz if it is, we have to manually store 0 in the corresponded indexes
+                // As it is done lower
+                if (row == null) row = 0;
+                if (column == null) column = 0;
+
+                // If the winning cell coordinates match the cell coordinates of the child (button)
+                if (cell[0] == row && cell[1] == column) {
+
+                    // Change the color of that button
+                    Button button = (Button) child;
+                    button.setStyle("-fx-background-color: #D1FFBD");
+                }
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ public class GameBoard implements IGameBoard
     private int player = 0;
     private Integer[][] grid = new Integer[GRID_SIZE][GRID_SIZE];
     private Integer winner;
-    private final ArrayList<int[]> winningLine = new ArrayList<>();
+    private ArrayList<int[]> winningLine = new ArrayList<>();
 
     /**
      * Returns 0 for player 0, 1 for player 1.
@@ -84,6 +84,7 @@ public class GameBoard implements IGameBoard
         grid = new Integer[GRID_SIZE][GRID_SIZE];
         player = 0;
         winner = null;
+        winningLine = new ArrayList<>();
     }
 
     /**

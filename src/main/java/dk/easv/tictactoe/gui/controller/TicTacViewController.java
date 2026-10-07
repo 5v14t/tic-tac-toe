@@ -145,6 +145,11 @@ public class TicTacViewController implements Initializable
         }
     }
 
+    /**
+     * Highlights the winning line with green color.
+     *
+     * @param winningLine an Arraylist of array of integers that contains the winning cells.
+     */
     private void highlightWinningLine(ArrayList<int[]> winningLine) {
         // Get all the children of the GridPane
         ObservableList<Node> children = gridPane.getChildrenUnmodifiable();

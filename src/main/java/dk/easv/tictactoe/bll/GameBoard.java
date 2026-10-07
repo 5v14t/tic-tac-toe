@@ -218,30 +218,51 @@ public class GameBoard implements IGameBoard
         return false;
     }
 
+    /**
+     * Saves a list of the winning row cells into the memory.
+     *
+     * @param row a row that is being saved into the memory
+     */
     private void saveWinningRow(int row) {
         for (int col = 0; col < GRID_SIZE; col++) {
             winningLine.add(new int[]{row, col});
         }
     }
 
+    /**
+     * Saves a list of the winning column cells into the memory.
+     *
+     * @param col a colymn that is being saved into the memory.
+     */
     private void saveWinningColumn(int col) {
         for (int row = 0; row < GRID_SIZE; row++) {
             winningLine.add(new int[]{row, col});
         }
     }
 
+    /**
+     * Saves a list of the winning descending diagonal cells into the memory.
+     */
     private void saveWinningDescendingDiagonal() {
         for (int i = 0; i < GRID_SIZE; i++) {
             winningLine.add(new int[]{i, i});
         }
     }
 
+    /**
+     * Saves a list of the winning ascending diagonal cells into the memory.
+     */
     private void saveWinningAscendingDiagonal() {
         for (int i = 0; i < GRID_SIZE; i++) {
             winningLine.add(new int[]{GRID_SIZE - 1 - i, i});
         }
     }
 
+    /**
+     * Gets the winning line (list of cells) out of memory
+     *
+     * @return an Arraylist of array of integers with the winning cells.
+     */
     public ArrayList<int[]> getWinningLine() {
         return winningLine;
     }

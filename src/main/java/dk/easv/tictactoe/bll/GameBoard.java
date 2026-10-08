@@ -88,7 +88,7 @@ public class GameBoard implements IGameBoard
     }
 
     /**
-     * Switches players.
+     * Switches players. If 0, switch to 1, and vice versa.
      */
     private void switchPlayer()
     {
@@ -233,7 +233,7 @@ public class GameBoard implements IGameBoard
     /**
      * Saves a list of the winning column cells into the memory.
      *
-     * @param col a colymn that is being saved into the memory.
+     * @param col a column that is being saved into the memory.
      */
     private void saveWinningColumn(int col) {
         for (int row = 0; row < GRID_SIZE; row++) {
@@ -266,5 +266,14 @@ public class GameBoard implements IGameBoard
      */
     public ArrayList<int[]> getWinningLine() {
         return winningLine;
+    }
+
+    /**
+     * Gets the grid of the current game.
+     *
+     * @return a 2D array of Integers with the current game's grid.
+     */
+    public Integer[][] getGrid() {
+        return this.grid;
     }
 }

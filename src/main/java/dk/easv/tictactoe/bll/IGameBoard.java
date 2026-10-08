@@ -49,5 +49,15 @@ public interface IGameBoard
      */
     void newGame();
 
+    /**
+     * Gets the winning line out of the memory.
+     * @return an ArrayList with arrays of int where are saves cells composing the winning line.
+     */
     ArrayList<int[]> getWinningLine();
+
+    /**
+     * Gets the grid of the current GameBoard.
+     * @return the game grid represented by a 2D array of Integers.
+     */
+    Integer[][] getGrid();
 }
